@@ -13,7 +13,7 @@ pub fn key(input: &str) -> IResult<&str, &str> {
     let (input, key) = delimited(
         char('"'),
         fold_many1(
-            alt((alphanumeric1, tag("_"), tag("-"))),
+            alt((alphanumeric1, tag("_"), tag("-"), tag("."), tag(":"))),
             String::new,
             |mut acc, item| {
                 acc.push_str(item);

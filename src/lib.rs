@@ -165,4 +165,68 @@ mod tests {
         let result = parse_vdf_text(input);
         assert!(result.is_ok(), "Failed to parse attribute");
     }
+
+    #[test]
+    fn can_parse_value_with_spaces() {
+        let input = r#"
+        "default_attack"
+        {
+            "ID" "5001"
+            "Damage" "100"
+            "test_block"
+            {
+                "test_key" "0 0 0 0 0"
+            }
+        }
+        "#;
+
+        let expected = VdfAttribute {
+            key: "default_attack".to_string(),
+            comments_before: vec![],
+            comment_after: None,
+            value: VdfValue::Block(HashMap::from([
+                (
+                    "Damage".to_string(),
+                    VdfAttribute {
+                        key: "Damage".to_string(),
+                        comments_before: vec![],
+                        comment_after: None,
+                        value: VdfValue::String("100".to_string()),
+                    },
+                ),
+                (
+                    "ID".to_string(),
+                    VdfAttribute {
+                        key: "ID".to_string(),
+                        comments_before: vec![],
+                        comment_after: None,
+                        value: VdfValue::String("5001".to_string()),
+                    },
+                ),
+                (
+                    "test_block".to_string(),
+                    VdfAttribute {
+                        key: "test_block".to_string(),
+                        comments_before: vec![],
+                        comment_after: None,
+                        value: VdfValue::Block(HashMap::from([(
+                            "test_key".to_string(),
+                            VdfAttribute {
+                                key: "test_key".to_string(),
+                                comments_before: vec![],
+                                comment_after: None,
+                                value: VdfValue::String("0 0 0 0 0".to_string()),
+                            },
+                        )])),
+                    },
+                ),
+            ])),
+        };
+        let result = parse_vdf_text(input);
+        assert!(result.is_ok(), "Failed to parse attribute");
+        let result = result.unwrap();
+        assert_eq!(result, expected, "Parsed value does not match");
+        println!("Result {:#?}", result);
+        println!("Expected {:#?}", expected);
+    }
 }
