@@ -3,6 +3,9 @@ name = "vdf-parser"
 authors = ["Raúl Rivadeneyra <"]
 description = "A parser for Valve Data Format (VDF) files."
 license = "MIT"
+readme = "README.md"
+repository = "https://github.com/RaulRivadeneyra/vdf-parser"
+homepage = "https://github.com/RaulRivadeneyra/vdf-parser"
 version = "0.1.0"
 edition = "2021"
 
