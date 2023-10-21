@@ -14,10 +14,10 @@ pub enum VdfValue {
 
 #[derive(Debug, PartialEq)]
 pub struct VdfAttribute {
-    comments_before: Vec<String>,
-    comment_after: Option<String>,
-    key: String,
-    value: VdfValue,
+    pub comments_before: Vec<String>,
+    pub comment_after: Option<String>,
+    pub key: String,
+    pub value: VdfValue,
 }
 
 /// ## Parse a VDF text
