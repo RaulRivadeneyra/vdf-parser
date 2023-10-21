@@ -21,12 +21,9 @@ pub struct VdfAttribute {
 }
 
 impl VdfAttribute {
-    pub fn get_block_value(&self, key: Option<&str>) -> Option<&VdfAttribute> {
+    pub fn get_block_value(&self, key: &str) -> Option<&VdfAttribute> {
         match &self.value {
-            VdfValue::Block(block) => match key {
-                Some(key) => block.get(key),
-                None => None,
-            },
+            VdfValue::Block(block) => block.get(key),
             _ => None,
         }
     }
