@@ -4,7 +4,7 @@ use crate::combinators::attribute;
 use crate::error::VdfError;
 
 mod combinators;
-mod error;
+pub mod error;
 
 #[derive(Debug, PartialEq)]
 pub enum VdfValue {
@@ -21,10 +21,19 @@ pub struct VdfAttribute {
 }
 
 impl VdfAttribute {
-    pub fn get_block_value(&self, key: &str) -> Option<&VdfAttribute> {
+    pub fn get_block_value(&self, key: &str) -> Result<&VdfAttribute, VdfError> {
         match &self.value {
-            VdfValue::Block(block) => block.get(key),
-            _ => None,
+            VdfValue::Block(block) => match block.get(key) {
+                Some(value) => Ok(value),
+                None => Err(VdfError::ValueNotFound(
+                    key.to_string(),
+                    self.key.to_string(),
+                )),
+            },
+            _ => Err(VdfError::ValueNotFound(
+                key.to_string(),
+                self.key.to_string(),
+            )),
         }
     }
 }
