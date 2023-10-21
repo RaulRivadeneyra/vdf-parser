@@ -20,6 +20,18 @@ pub struct VdfAttribute {
     pub value: VdfValue,
 }
 
+impl VdfAttribute {
+    pub fn get_block_value(&self, key: Option<&str>) -> Option<&VdfAttribute> {
+        match &self.value {
+            VdfValue::Block(block) => match key {
+                Some(key) => block.get(key),
+                None => None,
+            },
+            _ => None,
+        }
+    }
+}
+
 /// ## Parse a VDF text
 /// ______
 /// - `text` - The VDF text to parse
