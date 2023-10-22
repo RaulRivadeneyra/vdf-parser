@@ -12,6 +12,15 @@ pub enum VdfValue {
     Block(HashMap<String, VdfAttribute>),
 }
 
+impl From<VdfValue> for String {
+    fn from(value: VdfValue) -> Self {
+        match value {
+            VdfValue::String(string) => string,
+            VdfValue::Block(_) => panic!("Cannot convert VdfValue::Block to String"),
+        }
+    }
+}
+
 #[derive(Debug, PartialEq)]
 pub struct VdfAttribute {
     pub comments_before: Vec<String>,
@@ -20,8 +29,10 @@ pub struct VdfAttribute {
     pub value: VdfValue,
 }
 
+impl VdfValue {}
+
 impl VdfAttribute {
-    pub fn get_block_value(&self, key: &str) -> Result<&VdfAttribute, VdfError> {
+    pub fn get_string_value(&self, key: &str) -> Result<&VdfAttribute, VdfError> {
         match &self.value {
             VdfValue::Block(block) => match block.get(key) {
                 Some(value) => Ok(value),
